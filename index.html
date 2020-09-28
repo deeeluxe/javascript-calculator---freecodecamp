@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Linus Javascript Calculator</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/test4/css/styles.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+      <div id="frame" class="container-fluid mt-5">
+        <h5>3 + 5 x 6 - 2 / 4 =</h5>
+          <p id="display" class="text-right">0</p>
+          <p id="secondaryDisplay" class="text-right"></p>
+          <div id="divider"></div>
+
+          <a id="zero" class="btn btn-primary" onclick="updateNumber('0')">0</a>
+          <a id="one" class="btn btn-primary" onclick="updateNumber('1')">1</a>
+          <a id="two" class="btn btn-primary" onclick="updateNumber('2')">2</a>
+          <a id="three" class="btn btn-primary" onclick="updateNumber('3')">3</a>
+          <a id="four" class="btn btn-primary" onclick="updateNumber('4')">4</a>
+          <a id="five" class="btn btn-primary" onclick="updateNumber('5')">5</a>
+          <a id="six" class="btn btn-primary" onclick="updateNumber('6')">6</a>
+          <a id="seven" class="btn btn-primary" onclick="updateNumber('7')">7</a>
+          <a id="eight" class="btn btn-primary" onclick="updateNumber('8')">8</a>
+          <a id="nine" class="btn btn-primary" onclick="updateNumber('9')">9</a>
+
+          <a id="equals" class="btn" onclick="eject()">=</a>
+          <a id="clear" class="btn btn-primary" onclick="clearDisplay()">AC</a>
+          <a id="decimal" class="btn" onclick="appendDecimal()">.</a>
+
+          <a id="add" class="btn btn-primary" onclick="arithmetic('+')">+</a>
+          <a id="subtract" class="btn btn-primary" onclick="arithmetic('-')">-</a>
+          <a id="multiply" class="btn btn-primary" onclick="arithmetic('*')">*</a>
+          <a id="divide" class="btn btn-primary" onclick="arithmetic('/')">/</a>
+
+      </div>
+      
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+  <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+  <script src="./js/script.js"></script>
+</html>
