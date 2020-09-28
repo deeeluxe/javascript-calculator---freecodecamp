@@ -1,6 +1,14 @@
 var trailingResult = "";
 var operand = "";
 
+document.addEventListener("keydown", keyPress);
+
+function keyPress(e){
+    var keyCode = e.keyCode;
+    console.log(keyCode);
+    
+};
+
 function clearDisplay() {
 
     console.log("Clear was pressed");
@@ -13,11 +21,11 @@ function clearDisplay() {
 function eject() {
     if (operand.length > 0) {
         calculate(trailingResult, operand, document.getElementById("display").innerHTML);    
+        document.getElementById("display").innerHTML = trailingResult;
+        document.getElementById("secondaryDisplay").innerHTML = trailingResult;
+        trailingResult = "";
+        operand = "";
     }
-    document.getElementById("display").innerHTML = trailingResult;
-    document.getElementById("secondaryDisplay").innerHTML = trailingResult;
-    trailingResult = "";
-    operand = "";
 
 }
 
@@ -72,5 +80,17 @@ function calculate(tr, op, cn) {
         case "/":
             trailingResult = parseFloat(tr) / parseFloat(cn);
             break;
+    }
+  }
+
+document.addEventListener("keydown", keyPress);
+
+  function keyPress(e) {
+      var keyCode = e.keyCode;
+      console.log(keyCode);
+      var keyChar = String.fromCharCode(keyCode);
+
+      if (document.getElementById(keyChar) !== null) {
+        console.log(keyChar);
     }
   }
