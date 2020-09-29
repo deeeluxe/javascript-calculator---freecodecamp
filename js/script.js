@@ -1,5 +1,7 @@
 var trailingResult = "";
 var operand = "";
+var prevOperand = ""
+var isNegative = false;
 
 document.addEventListener("keydown", keyPress);
 
@@ -66,6 +68,7 @@ function clearDisplay() {
     document.getElementById("display").innerHTML = "0";
     document.getElementById("secondaryDisplay").innerHTML = "";
     operand = "";
+    prevOperand = "";
     trailingResult = "";
 }
 
@@ -76,6 +79,7 @@ function eject() {
         document.getElementById("secondaryDisplay").innerHTML = trailingResult;
         trailingResult = "";
         operand = "";
+        prevOperand = "";
     }
 
 }
@@ -101,16 +105,48 @@ function updateNumber(element) {
 
 function arithmetic(element) {
 
-    if (operand.length > 0) {
+    let sDlastDigit = document.getElementById("secondaryDisplay").innerHTML[document.getElementById("secondaryDisplay").innerHTML.length-1]
+
+    if (element === "-" && (sDlastDigit === "+" || sDlastDigit === "/" || sDlastDigit === "*")) {
+        isNegative = true;
+        // console.log(operand.length, isNegative);
+        // console.log(trailingResult, prevOperand, isNegative);
+        // calculate(trailingResult, prevOperand, -trailingResult);
+        // operand = "";
+        // prevOperand = "";
+        // document.getElementById("secondaryDisplay").innerHTML = "-";
+        // document.getElementById("secondaryDisplay").innerHTML += trailingResult;
+        // document.getElementById("display").innerHTML = "";
+        trailingResult = -trailingResult;
+
+    } else if (element !== "-" && (sDlastDigit === "+" || sDlastDigit === "/" || sDlastDigit === "*")) {
+        let newString = document.getElementById("secondaryDisplay").innerHTML.substr(0, document.getElementById("secondaryDisplay").innerHTML.length-1);
+        document.getElementById("secondaryDisplay").innerHTML = newString;
+        document.getElementById("secondaryDisplay").innerHTML += element;
+        prevOperand = operand;
+        operand = element;
+
+    } else if (operand.length > 0 && isNegative === false) {
         calculate(trailingResult, operand, document.getElementById("display").innerHTML);
+        prevOperand = operand;
         operand = element;
         document.getElementById("secondaryDisplay").innerHTML = trailingResult;
         document.getElementById("secondaryDisplay").innerHTML += operand;
         document.getElementById("display").innerHTML = "";
-        
+
+    } else if (operand.length > 0 && isNegative === true) {
+        console.log(trailingResult, prevOperand, document.getElementById("display").innerHTML);
+        // calculate(trailingResult, prevOperand, document.getElementById("display").innerHTML);
+        // prevOperand = operand;
+        // operand = element;
+        // document.getElementById("secondaryDisplay").innerHTML = trailingResult;
+        // document.getElementById("secondaryDisplay").innerHTML += operand;
+        // document.getElementById("display").innerHTML = "";
+        isNegative = false;
     } else {
         trailingResult = document.getElementById("display").innerHTML;
         operand = element;
+        prevOperand = operand;
         document.getElementById("secondaryDisplay").innerHTML += element;
         document.getElementById("display").innerHTML = "";
     } 
