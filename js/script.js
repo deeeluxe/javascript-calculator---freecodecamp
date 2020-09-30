@@ -2,6 +2,7 @@ var trailingResult = "";
 var operand = "";
 var prevOperand = ""
 var isNegative = false;
+var counter = 0;
 
 document.addEventListener("keydown", keyPress);
 
@@ -70,18 +71,30 @@ function clearDisplay() {
     operand = "";
     prevOperand = "";
     trailingResult = "";
+    counter = 0;
 }
 
 function eject() {
-    if (operand.length > 0) {
+    if (operand.length > 0 && isNegative === false) {
+        console.log(trailingResult, operand, document.getElementById("display").innerHTML);
         calculate(trailingResult, operand, document.getElementById("display").innerHTML);    
         document.getElementById("display").innerHTML = trailingResult;
         document.getElementById("secondaryDisplay").innerHTML = trailingResult;
         trailingResult = "";
         operand = "";
         prevOperand = "";
-    }
+        counter = 0;
 
+    } else if (operand.length > 0 && isNegative === true) {
+        calculateNegative(trailingResult, prevOperand, document.getElementById("display").innerHTML);
+        document.getElementById("display").innerHTML = trailingResult;
+        document.getElementById("secondaryDisplay").innerHTML = trailingResult;
+        isNegative = false;
+        trailingResult = "";
+        operand = "";
+        prevOperand = "";
+        counter = 0;
+    }
 }
 
 function appendDecimal() {  
@@ -107,17 +120,17 @@ function arithmetic(element) {
 
     let sDlastDigit = document.getElementById("secondaryDisplay").innerHTML[document.getElementById("secondaryDisplay").innerHTML.length-1]
 
+    if (counter >= 2) {
+        let newStringTwo = document.getElementById("secondaryDisplay").innerHTML.substr(0, document.getElementById("secondaryDisplay").innerHTML.length-2);
+        document.getElementById("secondaryDisplay").innerHTML = newStringTwo;
+        operand = element;
+        isNegative = false;
+    }
+
     if (element === "-" && (sDlastDigit === "+" || sDlastDigit === "/" || sDlastDigit === "*")) {
+        document.getElementById("secondaryDisplay").innerHTML += "-";
         isNegative = true;
-        // console.log(operand.length, isNegative);
-        // console.log(trailingResult, prevOperand, isNegative);
-        // calculate(trailingResult, prevOperand, -trailingResult);
-        // operand = "";
-        // prevOperand = "";
-        // document.getElementById("secondaryDisplay").innerHTML = "-";
-        // document.getElementById("secondaryDisplay").innerHTML += trailingResult;
-        // document.getElementById("display").innerHTML = "";
-        trailingResult = -trailingResult;
+        counter += 1;
 
     } else if (element !== "-" && (sDlastDigit === "+" || sDlastDigit === "/" || sDlastDigit === "*")) {
         let newString = document.getElementById("secondaryDisplay").innerHTML.substr(0, document.getElementById("secondaryDisplay").innerHTML.length-1);
@@ -125,8 +138,10 @@ function arithmetic(element) {
         document.getElementById("secondaryDisplay").innerHTML += element;
         prevOperand = operand;
         operand = element;
+        counter += 1;
 
-    } else if (operand.length > 0 && isNegative === false) {
+    } else if (operand.length > 0 && isNegative === false && document.getElementById("display").innerHTML !== "") {     
+        console.log("thirdbefore", trailingResult, operand, prevOperand);
         calculate(trailingResult, operand, document.getElementById("display").innerHTML);
         prevOperand = operand;
         operand = element;
@@ -135,21 +150,29 @@ function arithmetic(element) {
         document.getElementById("display").innerHTML = "";
 
     } else if (operand.length > 0 && isNegative === true) {
-        console.log(trailingResult, prevOperand, document.getElementById("display").innerHTML);
-        // calculate(trailingResult, prevOperand, document.getElementById("display").innerHTML);
-        // prevOperand = operand;
-        // operand = element;
-        // document.getElementById("secondaryDisplay").innerHTML = trailingResult;
-        // document.getElementById("secondaryDisplay").innerHTML += operand;
-        // document.getElementById("display").innerHTML = "";
+        calculateNegative(trailingResult, prevOperand, document.getElementById("display").innerHTML);
+        prevOperand = operand;
+        operand = element;
+        document.getElementById("secondaryDisplay").innerHTML = trailingResult;
+        document.getElementById("secondaryDisplay").innerHTML += operand;
+        document.getElementById("display").innerHTML = "";
         isNegative = false;
-    } else {
+
+    } else if (document.getElementById("display").innerHTML !== ""){
         trailingResult = document.getElementById("display").innerHTML;
         operand = element;
         prevOperand = operand;
         document.getElementById("secondaryDisplay").innerHTML += element;
         document.getElementById("display").innerHTML = "";
-    } 
+        counter += 1;
+
+    } else {
+        operand = element;
+        prevOperand = operand;
+        document.getElementById("secondaryDisplay").innerHTML += element;
+        document.getElementById("display").innerHTML = "";
+        counter += 1;
+    }
 }
 
 
@@ -169,4 +192,19 @@ function calculate(tr, op, cn) {
             trailingResult = parseFloat(tr) / parseFloat(cn);
             break;
     }
+}
+
+function calculateNegative (tr, op, cn) {
+
+    switch (op) {
+        case "+":
+            trailingResult = parseFloat(tr) + parseFloat(-cn);
+            break;
+        case "*":
+            trailingResult = parseFloat(tr) * parseFloat(-cn);
+            break;
+        case "/":
+            trailingResult = parseFloat(tr) / parseFloat(-cn);
+            break;
+    } 
 }
